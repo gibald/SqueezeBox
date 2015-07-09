@@ -2,17 +2,37 @@
   "uuid": "3b25c79c-9022-48d8-9042-cb89e30fcf67",
   "shortName": "SqueezeBox",
   "longName": "SqueezeBox",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "Gibald",
   "versionLabel": "1.0",
   "sdkVersion": "3",
-  "targetPlatforms": ["aplite", "basalt"],
+  "targetPlatforms": ["basalt"],
   "watchapp": {
     "watchface": false
   },
   "appKeys": {
-    "dummy": 0
+    "STATUS_KEY": 0,
+    "MESSAGE_KEY": 1,
+    "TITLE_INFO": 2,
+    "ARTIST_INFO": 3,
+    "ALBUM_INFO": 4
   },
   "resources": {
-    "media": []
+    "media": [
+      {
+        "type": "png",
+        "name": "ICON_PLAY",
+        "file": "play.png"
+      },
+      {
+        "type": "png",
+        "name": "ICON_NEXT",
+        "file": "skip-next.png"
+      },
+      {
+        "type": "png",
+        "name": "ICON_PREVIOUS",
+        "file": "skip-previous.png"
+      }
+    ]
   }
 }
