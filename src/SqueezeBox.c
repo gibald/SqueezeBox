@@ -5,6 +5,10 @@
 #define TITLE_INFO 2
 #define ARTIST_INFO 3
 #define ALBUM_INFO 4
+#define SQ_ADRESS 5
+#define PERSIST_SQ_ADRESS 6
+
+char sq_address_p[30];
 
 // #define NUM_MENU_SECTIONS 2
 // #define NUM_FIRST_MENU_ITEMS 3
@@ -17,8 +21,9 @@ static Window *window_advance_squeezebox;
 static TextLayer *text_layer;
 static TextLayer *s_time_layer;
 static TextLayer *s_title_info_layer;
-static TextLayer *s_artist_info_layer;
 static TextLayer *s_album_info_layer;
+static TextLayer *s_artist_info_layer;
+static TextLayer *s_debug_layer;
 static TextLayer *s_weather_layer;
 
 static GBitmap *s_background_bitmap;
@@ -132,14 +137,23 @@ static void window_load(Window *window) {
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_artist_info_layer));
 
-  //Request track info
+  // Create artist TextLayer
+  s_debug_layer = text_layer_create(GRect(0, 120, 144, 25));
+  text_layer_set_background_color(s_debug_layer, GColorClear);
+  text_layer_set_text_color(s_debug_layer, GColorRed);
+  text_layer_set_text(s_debug_layer, sq_address_p);
+  // s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
+  // text_layer_set_font(s_debug_layer, s_weather_font);
+  // Add it as a child layer to the Window's root layer
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_debug_layer));
 }
 
 static void window_unload(Window *window) {
   action_bar_layer_destroy(action_bar);
   text_layer_destroy(s_title_info_layer);
-  text_layer_destroy(s_album_info_layer);
   text_layer_destroy(s_artist_info_layer);
+  text_layer_destroy(s_album_info_layer);
+  text_layer_destroy(s_debug_layer);
 }
 
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {
@@ -147,6 +161,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   static char title_info_layer_buffer[32];
   static char artist_info_layer_buffer[32];
   static char album_info_layer_buffer[32];
+  static char SQ_IP_layer_buffer[32];
   
   // Read first item
   Tuple *t = dict_read_first(iterator);
@@ -164,6 +179,11 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     case ALBUM_INFO:
       snprintf(album_info_layer_buffer, sizeof(album_info_layer_buffer), "%s", t->value->cstring);
       break;
+    case SQ_ADRESS:
+      APP_LOG(APP_LOG_LEVEL_ERROR, "SQ_ADRESS!");
+      snprintf(SQ_IP_layer_buffer, sizeof(SQ_IP_layer_buffer), "%s", t->value->cstring);
+      persist_write_string(PERSIST_SQ_ADRESS, SQ_IP_layer_buffer);
+      break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
@@ -178,6 +198,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   text_layer_set_text(s_title_info_layer, title_info_layer_buffer);
   text_layer_set_text(s_artist_info_layer, artist_info_layer_buffer);
   text_layer_set_text(s_album_info_layer, album_info_layer_buffer);
+  text_layer_set_text(s_debug_layer, SQ_IP_layer_buffer);
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
@@ -193,6 +214,11 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 }
 
 static void init(void) {
+  if (persist_exists(PERSIST_SQ_ADRESS)) {
+    persist_read_string(PERSIST_SQ_ADRESS, sq_address_p, sizeof(sq_address_p));
+    // APP_LOG(APP_LOG_LEVEL_ERROR, "::::: %s", sq_address_p);
+  }
+
   window = window_create();
   // window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {

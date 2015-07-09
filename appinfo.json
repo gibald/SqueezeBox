@@ -2,6 +2,7 @@
   "uuid": "3b25c79c-9022-48d8-9042-cb89e30fcf67",
   "shortName": "SqueezeBox",
   "longName": "SqueezeBox",
+  "capabilities": [ "configurable" ],
   "companyName": "Gibald",
   "versionLabel": "1.0",
   "sdkVersion": "3",
@@ -14,7 +15,8 @@
     "MESSAGE_KEY": 1,
     "TITLE_INFO": 2,
     "ARTIST_INFO": 3,
-    "ALBUM_INFO": 4
+    "ALBUM_INFO": 4,
+    "SQ_ADRESS": 5
   },
   "resources": {
     "media": [
