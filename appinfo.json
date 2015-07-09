@@ -1,7 +1,7 @@
 {
   "uuid": "3b25c79c-9022-48d8-9042-cb89e30fcf67",
   "shortName": "SqueezeBox",
-  "longName": "SqueezeBox",
+  "longName": "SqueezeBox Remote",
   "capabilities": [ "configurable" ],
   "companyName": "Gibald",
   "versionLabel": "1.0",

@@ -69,7 +69,7 @@ function trackInfo() {
 Pebble.addEventListener("showConfiguration",
   function(e) {
     //Load the remote config page
-    Pebble.openURL("http://srv.gibald.com/pebble.html");
+    Pebble.openURL("http://srv.gibald.com/pebble/squeezebox_conf.html");
   }
 );
 
