@@ -4,7 +4,7 @@
   "longName": "SqueezeBox Remote",
   "capabilities": [ "configurable" ],
   "companyName": "Gibald",
-  "versionLabel": "1.0",
+  "versionLabel": "1.01",
   "sdkVersion": "3",
   "targetPlatforms": ["basalt"],
   "watchapp": {
@@ -13,10 +13,12 @@
   "appKeys": {
     "STATUS_KEY": 0,
     "MESSAGE_KEY": 1,
-    "TITLE_INFO": 2,
-    "ARTIST_INFO": 3,
-    "ALBUM_INFO": 4,
-    "SQ_ADRESS": 5
+    "PLAT": 2,
+    "TITLE_INFO": 3,
+    "ARTIST_INFO": 4,
+    "ALBUM_INFO": 5,
+    "SQ_ADRESS": 6,
+    "KODI_ADRESS": 7
   },
   "resources": {
     "media": [

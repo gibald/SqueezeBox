@@ -2,11 +2,10 @@
 
 #define STATUS_KEY 0
 #define MESSAGE_KEY 1
-#define TITLE_INFO 2
-#define ARTIST_INFO 3
-#define ALBUM_INFO 4
-#define SQ_ADRESS 5
-#define PERSIST_SQ_ADRESS 6
+#define PLAT 2
+#define TITLE_INFO 3
+#define ARTIST_INFO 4
+#define ALBUM_INFO 5
 
 char sq_address_p[30];
 
@@ -179,11 +178,6 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
     case ALBUM_INFO:
       snprintf(album_info_layer_buffer, sizeof(album_info_layer_buffer), "%s", t->value->cstring);
       break;
-    case SQ_ADRESS:
-      APP_LOG(APP_LOG_LEVEL_ERROR, "SQ_ADRESS!");
-      snprintf(SQ_IP_layer_buffer, sizeof(SQ_IP_layer_buffer), "%s", t->value->cstring);
-      persist_write_string(PERSIST_SQ_ADRESS, SQ_IP_layer_buffer);
-      break;
     default:
       APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
       break;
@@ -214,11 +208,6 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 }
 
 static void init(void) {
-  if (persist_exists(PERSIST_SQ_ADRESS)) {
-    persist_read_string(PERSIST_SQ_ADRESS, sq_address_p, sizeof(sq_address_p));
-    // APP_LOG(APP_LOG_LEVEL_ERROR, "::::: %s", sq_address_p);
-  }
-
   window = window_create();
   // window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
