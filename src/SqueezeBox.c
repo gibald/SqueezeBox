@@ -91,25 +91,46 @@ static void window_load(Window *window) {
 
   // Initialize the action bar:
   action_bar = action_bar_layer_create();
-  action_bar_layer_set_background_color(action_bar, GColorRed);
+    #ifdef PBL_COLOR
+        action_bar_layer_set_background_color(action_bar, GColorRed);
+    #endif
   // Associate the action bar with the window:
   action_bar_layer_add_to_window(action_bar, window);
   // Set the click config provider:
   action_bar_layer_set_click_config_provider(action_bar, click_config_provider);
 
   // Set the icons:
-  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_PLAY);
-  // The loading of the icons is omitted for brevity... See gbitmap_create_with_resource()
-  action_bar_layer_set_icon_animated(action_bar, BUTTON_ID_SELECT, s_background_bitmap, true);
-  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_PREVIOUS);
-  action_bar_layer_set_icon_animated(action_bar, BUTTON_ID_UP, s_background_bitmap, true);
-  s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_NEXT);
-  action_bar_layer_set_icon_animated(action_bar, BUTTON_ID_DOWN, s_background_bitmap, true);
+    #ifdef PBL_COLOR
+        s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_PLAY);
+        action_bar_layer_set_icon_animated(action_bar, BUTTON_ID_SELECT, s_background_bitmap, true);
+    #else
+        s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_PLAY_INVERT);
+        action_bar_layer_set_icon(action_bar, BUTTON_ID_SELECT, s_background_bitmap);
+    #endif
+    
+    #ifdef PBL_COLOR
+        s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_PREVIOUS);
+        action_bar_layer_set_icon_animated(action_bar, BUTTON_ID_UP, s_background_bitmap, true);
+    #else
+        s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_PREVIOUS_INVERT);
+        action_bar_layer_set_icon(action_bar, BUTTON_ID_UP, s_background_bitmap);
+    #endif
+    
+    #ifdef PBL_COLOR
+        s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_NEXT);
+        action_bar_layer_set_icon_animated(action_bar, BUTTON_ID_DOWN, s_background_bitmap, true);
+    #else
+        s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICON_NEXT_INVERT);
+        action_bar_layer_set_icon(action_bar, BUTTON_ID_DOWN, s_background_bitmap);
+    #endif
+
 
   // Create title TextLayer
   s_title_info_layer = text_layer_create(GRect(0, 30, 144, 25));
   text_layer_set_background_color(s_title_info_layer, GColorClear);
-  text_layer_set_text_color(s_title_info_layer, GColorRed);
+    #ifdef PBL_COLOR
+        text_layer_set_text_color(s_title_info_layer, GColorRed);
+    #endif
   text_layer_set_text(s_title_info_layer, "title");
   // s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
   // text_layer_set_font(s_title_info_layer, s_weather_font);
@@ -119,7 +140,9 @@ static void window_load(Window *window) {
   // Create album TextLayer
   s_album_info_layer = text_layer_create(GRect(0, 60, 144, 25));
   text_layer_set_background_color(s_album_info_layer, GColorClear);
-  text_layer_set_text_color(s_album_info_layer, GColorRed);
+    #ifdef PBL_COLOR
+        text_layer_set_text_color(s_album_info_layer, GColorRed);
+    #endif
   text_layer_set_text(s_album_info_layer, "album");
   // s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
   // text_layer_set_font(s_album_info_layer, s_weather_font);
@@ -129,7 +152,9 @@ static void window_load(Window *window) {
   // Create artist TextLayer
   s_artist_info_layer = text_layer_create(GRect(0, 90, 144, 25));
   text_layer_set_background_color(s_artist_info_layer, GColorClear);
-  text_layer_set_text_color(s_artist_info_layer, GColorRed);
+    #ifdef PBL_COLOR
+        text_layer_set_text_color(s_artist_info_layer, GColorRed);
+    #endif
   text_layer_set_text(s_artist_info_layer, "artist");
   // s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
   // text_layer_set_font(s_artist_info_layer, s_weather_font);
@@ -139,7 +164,9 @@ static void window_load(Window *window) {
   // Create artist TextLayer
   s_debug_layer = text_layer_create(GRect(0, 120, 144, 25));
   text_layer_set_background_color(s_debug_layer, GColorClear);
-  text_layer_set_text_color(s_debug_layer, GColorRed);
+    #ifdef PBL_COLOR
+        text_layer_set_text_color(s_debug_layer, GColorRed);
+    #endif
   text_layer_set_text(s_debug_layer, sq_address_p);
   // s_weather_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_PERFECT_DOS_20));
   // text_layer_set_font(s_debug_layer, s_weather_font);
